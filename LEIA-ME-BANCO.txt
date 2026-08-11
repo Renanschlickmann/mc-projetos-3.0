@@ -1,0 +1,18 @@
+MC PROJETOS — ATIVAR BANCO DE DADOS SUPABASE
+
+1. Crie um projeto no Supabase.
+2. Abra SQL Editor > New query.
+3. Cole TODO o conteúdo de database.sql e clique em Run.
+4. Vá em Project Settings > API.
+5. Copie a Project URL.
+6. Copie a Publishable key (ou anon key em projetos antigos).
+7. Abra supabase-config.js e cole os dois valores.
+8. Publique a pasta normalmente no GitHub Pages/servidor.
+9. No MC Projetos, crie a conta com e-mail e senha ou entre numa conta existente.
+10. No PRIMEIRO aparelho, clique em “Enviar dados deste aparelho” para migrar o que já estava no localStorage.
+11. Nos outros aparelhos, entre com a mesma conta e clique em “Baixar dados da nuvem”.
+
+IMPORTANTE
+- Não use a service_role key no navegador.
+- O backup JSON continua funcionando normalmente.
+- Sem internet, o sistema usa a cópia local; quando a conexão voltar, as novas alterações são enviadas para a nuvem se a sincronização já estiver ativa.

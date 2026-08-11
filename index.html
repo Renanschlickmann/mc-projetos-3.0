@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1e3b20">
+  <title>MC Projetos</title>
+  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+  <section id="telaLogin" class="tela-login" aria-label="Acesso ao MC Projetos">
+    <div class="login-shell">
+      <div class="login-brand">
+        <img src="logo.png" alt="MC Projetos">
+        <span class="login-chip">Gestão de projetos</span>
+        <h1>Bem-vindo ao MC Projetos</h1>
+        <p>Entre para acessar clientes, projetos, pagamentos, extratos e relatórios em qualquer dispositivo.</p>
+        <div class="login-beneficios">
+          <span>✓ Dados protegidos por usuário</span>
+          <span>✓ Sincronização entre celular e computador</span>
+          <span>✓ Backup local continua disponível</span>
+        </div>
+      </div>
+
+      <div class="login-card">
+        <div id="loginConfigPendente" class="login-config oculto">
+          <strong>Banco de dados ainda não configurado</strong>
+          <p>Preencha o arquivo <b>supabase-config.js</b> com a URL e a chave pública do seu projeto Supabase.</p>
+        </div>
+
+        <div id="loginNormal">
+          <div class="login-titulo">
+            <span class="eyebrow">Acesso seguro</span>
+            <h2>Entrar</h2>
+            <p>Use seu e-mail e senha.</p>
+          </div>
+
+          <form id="formLogin" class="login-form">
+            <label for="loginEmail">E-mail</label>
+            <input type="email" id="loginEmail" placeholder="seuemail@exemplo.com" autocomplete="email" required>
+            <label for="loginSenha">Senha</label>
+            <div class="campo-senha">
+              <input type="password" id="loginSenha" placeholder="Sua senha" autocomplete="current-password" required>
+              <button type="button" class="btn-ver-senha" data-alvo-senha="loginSenha" aria-label="Mostrar senha">👁</button>
+            </div>
+            <button type="submit" id="btnLoginPrincipal" class="btn-login-principal">Entrar no sistema</button>
+          </form>
+
+          <div class="login-links">
+            <button type="button" id="btnEsqueciSenha" class="link-button">Esqueci minha senha</button>
+            <button type="button" id="btnMostrarCadastro" class="link-button destaque-link">Criar conta</button>
+          </div>
+          <button type="button" id="btnEntrarOffline" class="btn-offline oculto">📴 Continuar offline neste aparelho</button>
+          <p id="loginOfflineInfo" class="login-offline-info oculto">O acesso offline só aparece depois que você já entrou com internet pelo menos uma vez neste aparelho.</p>
+          <p id="loginMensagem" class="login-mensagem" aria-live="polite"></p>
+        </div>
+
+        <div id="cadastroConta" class="oculto">
+          <div class="login-titulo">
+            <span class="eyebrow">Primeiro acesso</span>
+            <h2>Criar conta</h2>
+            <p>Crie o usuário que terá acesso aos dados da MC Projetos.</p>
+          </div>
+          <form id="formCadastroConta" class="login-form">
+            <label for="cadastroEmail">E-mail</label>
+            <input type="email" id="cadastroEmail" placeholder="seuemail@exemplo.com" autocomplete="email" required>
+            <label for="cadastroSenha">Senha</label>
+            <div class="campo-senha">
+              <input type="password" id="cadastroSenha" placeholder="Mínimo 6 caracteres" autocomplete="new-password" minlength="6" required>
+              <button type="button" class="btn-ver-senha" data-alvo-senha="cadastroSenha" aria-label="Mostrar senha">👁</button>
+            </div>
+            <label for="cadastroSenha2">Confirmar senha</label>
+            <input type="password" id="cadastroSenha2" placeholder="Digite a senha novamente" autocomplete="new-password" minlength="6" required>
+            <button type="submit" class="btn-login-principal">Criar minha conta</button>
+            <button type="button" id="btnVoltarLogin" class="btn-secundario">← Voltar para o login</button>
+          </form>
+          <p id="cadastroMensagem" class="login-mensagem" aria-live="polite"></p>
+        </div>
+
+        <div id="recuperarSenha" class="oculto">
+          <div class="login-titulo">
+            <span class="eyebrow">Recuperação</span>
+            <h2>Recuperar senha</h2>
+            <p>Digite seu e-mail. Você receberá um link para criar uma nova senha.</p>
+          </div>
+          <form id="formRecuperarSenha" class="login-form">
+            <label for="recuperarEmail">E-mail</label>
+            <input type="email" id="recuperarEmail" placeholder="seuemail@exemplo.com" required>
+            <button type="submit" class="btn-login-principal">Enviar link de recuperação</button>
+            <button type="button" id="btnVoltarLoginRecuperar" class="btn-secundario">← Voltar</button>
+          </form>
+          <p id="recuperarMensagem" class="login-mensagem" aria-live="polite"></p>
+        </div>
+
+        <div id="novaSenha" class="oculto">
+          <div class="login-titulo">
+            <span class="eyebrow">Nova senha</span>
+            <h2>Definir nova senha</h2>
+            <p>Digite a nova senha para sua conta.</p>
+          </div>
+          <form id="formNovaSenha" class="login-form">
+            <label for="novaSenhaInput">Nova senha</label>
+            <input type="password" id="novaSenhaInput" minlength="6" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required>
+            <label for="novaSenhaInput2">Confirmar nova senha</label>
+            <input type="password" id="novaSenhaInput2" minlength="6" placeholder="Digite novamente" autocomplete="new-password" required>
+            <button type="submit" class="btn-login-principal">Salvar nova senha</button>
+          </form>
+          <p id="novaSenhaMensagem" class="login-mensagem" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="appShell" class="app-shell oculto">
+
+  <header class="topo">
+    <img class="logo-cabecalho" src="logo.png" alt="MC Projetos - Agricultura de Precisão">
+    <p class="subtitulo-cabecalho">Clientes • Projetos • Pagamentos • Relatórios</p>
+    <div class="topo-conta">
+      <span id="topoUsuario">—</span>
+      <button type="button" id="btnSairTopo" class="btn-sair-topo">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="card dashboard-card">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">Visão geral</span>
+          <h2>Dashboard</h2>
+        </div>
+        <span class="data-hoje" id="dataHoje"></span>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="kpi"><span>Clientes</span><strong id="kpiClientes">0</strong><small>cadastrados</small></article>
+        <article class="kpi"><span>Projetos</span><strong id="kpiProjetos">0</strong><small>no total</small></article>
+        <article class="kpi destaque-verde"><span>Recebido</span><strong id="kpiRecebido">R$ 0,00</strong><small>valor acumulado</small></article>
+        <article class="kpi destaque-laranja"><span>A receber</span><strong id="kpiReceber">R$ 0,00</strong><small>saldo pendente</small></article>
+        <article class="kpi"><span>Pagos</span><strong id="kpiPagos">0</strong><small>projetos quitados</small></article>
+        <article class="kpi"><span>Pendentes</span><strong id="kpiPendentes">0</strong><small>parciais ou abertos</small></article>
+      </div>
+
+      <div class="dashboard-linhas">
+        <div class="mini-painel">
+          <h3>Últimos projetos</h3>
+          <div id="ultimosProjetos" class="lista-resumo vazio">Nenhum projeto cadastrado.</div>
+        </div>
+        <div class="mini-painel">
+          <h3>Valores por categoria</h3>
+          <div id="resumoCategorias" class="lista-resumo vazio">Nenhum valor cadastrado.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Cadastrar cliente</h2>
+      <form id="formCliente" class="form-grid">
+        <input type="hidden" id="clienteId">
+        <input type="text" id="clienteNome" placeholder="Nome do cliente" required>
+        <input type="text" id="clienteTelefone" placeholder="Telefone / WhatsApp (opcional)">
+        <input type="text" id="clienteDocumento" placeholder="CPF ou CNPJ (opcional)">
+        <input type="text" id="clienteCidade" placeholder="Cidade (opcional)">
+        <input type="text" id="clienteObs" class="full" placeholder="Observações (opcional)">
+        <div class="acoes-form full">
+          <button type="submit" id="btnSalvarCliente">Registrar cliente</button>
+          <button type="button" class="btn-secundario oculto" id="btnCancelarCliente">Cancelar edição</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Cadastrar projeto</h2>
+      <form id="formProjeto" class="form-grid">
+        <input type="hidden" id="projetoId">
+        <select id="projetoCliente" required><option value="">Selecione o cliente</option></select>
+        <select id="projetoTipo" required>
+          <option value="investimento">Projeto de Investimento</option>
+          <option value="custeio">Projeto de Custeio</option>
+          <option value="ap">Agricultura de Precisão (AP)</option>
+        </select>
+        <input type="text" id="projetoNome" placeholder="Nome ou identificação do projeto" required>
+        <input type="date" id="projetoData" required>
+
+        <div id="camposPercentual" class="grupo-condicional full form-grid interno">
+          <input type="text" id="projetoValorFinanciado" placeholder="Valor financiado (R$)">
+          <input type="text" id="projetoPercentual" inputmode="decimal" placeholder="Ex.: 0,75">
+          <small class="ajuda-campo">Digite 0,75 para 0,75% ou 1 para 1%.</small>
+        </div>
+
+        <div id="camposAp" class="grupo-condicional full form-grid interno oculto">
+          <input type="number" id="projetoArea" step="0.01" min="0" placeholder="Área (hectares)">
+          <input type="text" id="projetoValorHa" placeholder="Valor por hectare (R$)">
+        </div>
+
+        <div class="resultado-calculo full">
+          <span>Valor calculado do projeto</span>
+          <strong id="valorCalculado">R$ 0,00</strong>
+        </div>
+
+        <input type="text" id="projetoRecebidoInicial" placeholder="Valor já recebido (opcional)">
+        <select id="projetoStatus">
+          <option value="em_andamento">Em andamento</option>
+          <option value="aguardando">Aguardando</option>
+          <option value="concluido">Concluído</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+        <textarea id="projetoObs" class="full" placeholder="Observações do projeto (opcional)"></textarea>
+        <div class="acoes-form full">
+          <button type="submit" id="btnSalvarProjeto">Salvar projeto</button>
+          <button type="button" class="btn-secundario oculto" id="btnCancelarProjeto">Cancelar edição</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card acesso-consulta-card">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">Pesquisa</span>
+          <h2>Consulta rápida</h2>
+        </div>
+      </div>
+      <p class="dica-editar">Abra uma página separada para pesquisar clientes e projetos sem deixar a tela principal comprida.</p>
+      <button type="button" id="btnAbrirConsulta" class="btn-abrir-consulta">🔎 Abrir consulta rápida</button>
+    </section>
+
+    <section class="card acesso-clientes-card">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">Cadastros</span>
+          <h2>Clientes cadastrados</h2>
+        </div>
+      </div>
+      <p class="dica-editar">Abra uma página separada para consultar clientes, editar cadastros e gerar o extrato individual em PDF.</p>
+      <button type="button" id="btnAbrirClientes" class="btn-abrir-clientes">👥 Abrir clientes cadastrados</button>
+    </section>
+
+    <section class="card acesso-extrato-card">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">Financeiro</span>
+          <h2>Extrato de clientes</h2>
+        </div>
+      </div>
+      <p class="dica-editar">Abra uma página separada para consultar, filtrar, imprimir ou enviar o extrato de um cliente.</p>
+      <button type="button" id="btnAbrirExtrato" class="btn-abrir-extrato">📋 Abrir extrato</button>
+    </section>
+
+    <section class="card nuvem-card">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">Sincronização</span>
+          <h2>Banco de dados online</h2>
+        </div>
+        <span id="nuvemStatus" class="nuvem-status status-local">Somente neste aparelho</span>
+      </div>
+      <p class="dica-editar">Sua conta conecta este aparelho ao banco online. Quando estiver sem internet, o sistema continua usando a cópia local e sincroniza novamente quando a conexão voltar.</p>
+      <div id="authDeslogado" class="auth-grid">
+        <input type="email" id="authEmail" placeholder="E-mail" autocomplete="email">
+        <input type="password" id="authSenha" placeholder="Senha" autocomplete="current-password">
+        <button type="button" id="btnEntrar">Entrar</button>
+        <button type="button" id="btnCriarConta" class="btn-secundario">Criar conta</button>
+      </div>
+      <div id="authLogado" class="nuvem-painel oculto">
+        <div class="nuvem-usuario">
+          <div><small>Conectado como</small><strong id="authUsuario">—</strong></div>
+          <button type="button" id="btnSair" class="btn-secundario">Sair</button>
+        </div>
+        <div class="nuvem-acoes">
+          <button type="button" id="btnEnviarNuvem">☁️ Enviar dados deste aparelho</button>
+          <button type="button" id="btnBaixarNuvem" class="btn-secundario">↓ Baixar dados da nuvem</button>
+        </div>
+        <p id="nuvemMensagem" class="nuvem-mensagem">Aguardando sincronização.</p>
+      </div>
+      <div id="nuvemNaoConfigurada" class="nuvem-aviso">Banco ainda não configurado. Preencha <b>supabase-config.js</b> depois de criar o projeto no Supabase.</div>
+    </section>
+
+    <section class="card">
+      <h2>Relatórios e backup</h2>
+      <p class="backup-alerta">⚠️ O backup continua disponível mesmo com banco online. Salve um arquivo de backup de tempos em tempos como segurança extra.</p>
+      <div class="backup-botoes">
+        <button type="button" id="btnBackup">Salvar backup</button>
+        <label for="inputImportar" class="btn-importar">Importar backup</label>
+        <button type="button" id="btnExcel">Exportar Excel (CSV)</button>
+        <button type="button" id="btnRelatorio">Imprimir / Gerar PDF</button>
+        <input type="file" id="inputImportar" accept=".json">
+      </div>
+    </section>
+  </main>
+
+
+
+  <section id="paginaClientes" class="pagina-interna pagina-clientes" aria-hidden="true">
+    <div class="pagina-interna-topo">
+      <button type="button" id="btnVoltarClientes" class="btn-voltar-pagina" aria-label="Voltar">←</button>
+      <div>
+        <span class="eyebrow">Cadastros</span>
+        <h1>Clientes cadastrados</h1>
+      </div>
+    </div>
+
+    <div class="pagina-interna-conteudo">
+      <p class="dica-editar">Pesquise um cliente e clique em “Abrir cliente” para visualizar todo o histórico, valores pagos, saldo pendente e gerar o PDF.</p>
+      <div class="clientes-controles">
+        <input type="search" id="pesquisaClientes" placeholder="Pesquisar cliente pelo nome, telefone ou cidade">
+        <button type="button" id="btnLimparPesquisaClientes" class="btn-secundario">Limpar pesquisa</button>
+      </div>
+      <div id="listaClientes" class="lista-clientes vazio">Nenhum cliente cadastrado.</div>
+    </div>
+  </section>
+
+  <section id="paginaConsulta" class="pagina-interna pagina-consulta" aria-hidden="true">
+    <div class="pagina-interna-topo">
+      <button type="button" id="btnVoltarConsulta" class="btn-voltar-pagina" aria-label="Voltar">←</button>
+      <div>
+        <span class="eyebrow">Pesquisa</span>
+        <h1>Consulta rápida</h1>
+      </div>
+    </div>
+
+    <div class="pagina-interna-conteudo">
+      <p class="dica-editar">Pesquise pelo nome do cliente ou do projeto e use os filtros para encontrar rapidamente o que precisa.</p>
+      <div class="consulta-grid">
+        <input type="search" id="pesquisaGeral" placeholder="Pesquisar cliente ou projeto">
+        <select id="filtroTipo">
+          <option value="todos">Todos os tipos</option>
+          <option value="investimento">Investimento</option>
+          <option value="custeio">Custeio</option>
+          <option value="ap">Agricultura de Precisão</option>
+        </select>
+        <select id="filtroPagamento">
+          <option value="todos">Todos os pagamentos</option>
+          <option value="pago">Pagos</option>
+          <option value="parcial">Parciais</option>
+          <option value="pendente">Pendentes</option>
+        </select>
+        <button type="button" id="btnLimparFiltros" class="btn-secundario">Limpar filtros</button>
+      </div>
+
+      <div class="consulta-secao">
+        <h2>Projetos encontrados</h2>
+        <div id="listaProjetos" class="lista-projetos vazio">Nenhum projeto cadastrado.</div>
+      </div>
+
+      <div class="consulta-secao">
+        <h2>Clientes encontrados</h2>
+        <div id="listaClientesConsulta" class="lista-clientes vazio">Nenhum cliente cadastrado.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="paginaExtrato" class="pagina-extrato" aria-hidden="true">
+    <div class="pagina-extrato-topo">
+      <button type="button" id="btnVoltarExtrato" class="btn-voltar-extrato" aria-label="Voltar">←</button>
+      <div>
+        <span class="eyebrow">Financeiro</span>
+        <h1>Extrato de clientes</h1>
+      </div>
+    </div>
+
+    <div class="pagina-extrato-conteudo">
+      <p class="dica-editar">Selecione um cliente para gerar um extrato individual ou deixe em “Todos os clientes” para visualizar o extrato geral.</p>
+      <div class="extrato-controles">
+        <select id="extratoCliente">
+          <option value="todos">Todos os clientes</option>
+        </select>
+        <button type="button" id="btnGerarExtrato">Atualizar extrato</button>
+        <button type="button" id="btnPdfExtrato">Imprimir / Gerar PDF</button>
+        <button type="button" id="btnCsvExtrato" class="btn-secundario">Exportar extrato (CSV)</button>
+      </div>
+      <div id="extratoPreview" class="extrato-preview"></div>
+    </div>
+  </section>
+
+  <div id="modalPagamento" class="modal" aria-hidden="true">
+    <div class="modal-conteudo modal-menor">
+      <div class="modal-topo">
+        <div><span class="eyebrow">Financeiro</span><h2>Registrar pagamento</h2></div>
+        <button type="button" class="btn-fechar" data-fechar="modalPagamento">✕</button>
+      </div>
+      <p id="pagamentoProjetoNome" class="modal-subtitulo"></p>
+      <form id="formPagamento">
+        <input type="hidden" id="pagamentoProjetoId">
+        <input type="text" id="pagamentoValor" placeholder="Valor recebido (R$)" required>
+        <input type="date" id="pagamentoData" required>
+        <select id="pagamentoForma">
+          <option value="Pix">Pix</option><option value="Dinheiro">Dinheiro</option><option value="Transferência">Transferência</option><option value="Boleto">Boleto</option><option value="Outro">Outro</option>
+        </select>
+        <input type="text" id="pagamentoObs" placeholder="Observação (opcional)">
+        <button type="submit">Salvar pagamento</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalEditarProjeto" class="modal" aria-hidden="true">
+    <div class="modal-conteudo modal-editor">
+      <div class="modal-topo">
+        <div><span class="eyebrow">Editar</span><h2>Editar projeto</h2></div>
+        <button type="button" class="btn-fechar" data-fechar="modalEditarProjeto">✕</button>
+      </div>
+      <p class="modal-subtitulo">Faça as alterações aqui mesmo e confirme. A tela em que você estava continuará aberta.</p>
+      <form id="formEditarProjeto" class="form-grid">
+        <input type="hidden" id="editProjetoId">
+        <select id="editProjetoCliente" required></select>
+        <select id="editProjetoTipo" required>
+          <option value="investimento">Projeto de Investimento</option>
+          <option value="custeio">Projeto de Custeio</option>
+          <option value="ap">Agricultura de Precisão (AP)</option>
+        </select>
+        <input type="text" id="editProjetoNome" placeholder="Nome ou identificação do projeto" required>
+        <input type="date" id="editProjetoData" required>
+
+        <div id="editCamposPercentual" class="grupo-condicional full form-grid interno">
+          <input type="text" id="editProjetoValorFinanciado" placeholder="Valor financiado (R$)">
+          <input type="text" id="editProjetoPercentual" inputmode="decimal" placeholder="Percentual (%) - Ex.: 0,75">
+          <small class="ajuda-campo">Digite 0,75 para 0,75% ou 1 para 1%.</small>
+        </div>
+
+        <div id="editCamposAp" class="grupo-condicional full form-grid interno oculto">
+          <input type="number" id="editProjetoArea" step="0.01" min="0" placeholder="Área (hectares)">
+          <input type="text" id="editProjetoValorHa" placeholder="Valor por hectare (R$)">
+        </div>
+
+        <div class="resultado-calculo full">
+          <span>Novo valor calculado</span>
+          <strong id="editValorCalculado">R$ 0,00</strong>
+        </div>
+
+        <select id="editProjetoStatus">
+          <option value="em_andamento">Em andamento</option>
+          <option value="aguardando">Aguardando</option>
+          <option value="concluido">Concluído</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+        <textarea id="editProjetoObs" class="full" placeholder="Observações do projeto (opcional)"></textarea>
+        <div class="acoes-form full">
+          <button type="submit">Confirmar alterações</button>
+          <button type="button" class="btn-secundario" data-fechar="modalEditarProjeto">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalDetalhes" class="modal" aria-hidden="true">
+    <div class="modal-conteudo">
+      <div class="modal-topo">
+        <div><span class="eyebrow">Detalhes</span><h2 id="detalheTitulo">Projeto</h2></div>
+        <button type="button" class="btn-fechar" data-fechar="modalDetalhes">✕</button>
+      </div>
+      <div id="detalheConteudo"></div>
+    </div>
+  </div>
+
+  <footer><p>© 2026 - MC Projetos</p></footer>
+  </div>
+
+  <script src="supabase-config.js?v=13"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js?v=13"></script>
+  <script>
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js');
+  </script>
+</body>
+</html>
