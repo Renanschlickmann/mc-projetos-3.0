@@ -395,6 +395,24 @@
     </div>
   </div>
 
+
+  <div id="modalExtra" class="modal" aria-hidden="true">
+    <div class="modal-conteudo modal-menor">
+      <div class="modal-topo">
+        <div><span class="eyebrow">Financeiro</span><h2>Adicionar cobrança extra</h2></div>
+        <button type="button" class="btn-fechar" data-fechar="modalExtra">✕</button>
+      </div>
+      <p id="extraProjetoNome" class="modal-subtitulo"></p>
+      <form id="formExtra">
+        <input type="hidden" id="extraProjetoId">
+        <input type="text" id="extraValor" placeholder="Valor extra (R$)" required>
+        <input type="text" id="extraDescricao" placeholder="Descrição — Ex.: visita técnica extra" required>
+        <input type="date" id="extraData" required>
+        <button type="submit">Adicionar cobrança extra</button>
+      </form>
+    </div>
+  </div>
+
   <div id="modalEditarProjeto" class="modal" aria-hidden="true">
     <div class="modal-conteudo modal-editor">
       <div class="modal-topo">
@@ -457,9 +475,9 @@
   <footer><p>© 2026 - MC Projetos</p></footer>
   </div>
 
-  <script src="supabase-config.js?v=13"></script>
+  <script src="supabase-config.js?v=14"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js?v=13"></script>
+  <script src="script.js?v=14"></script>
   <script>
     if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js');
   </script>

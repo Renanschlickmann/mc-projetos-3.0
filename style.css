@@ -218,3 +218,15 @@ body.sem-rolagem{overflow:hidden;touch-action:none}
 
 /* v13 — acesso offline após login */
 .btn-offline{width:100%;margin-top:14px;background:#edf3ed;color:#28552e;border:1px solid #c8d9ca;font-weight:800}.btn-offline:hover{background:#e2ece3;color:#1f4725}.login-offline-info{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fff8e8;color:#80520c;font-size:12px;line-height:1.45}.login-mensagem.info{color:#80520c}.offline-badge{background:#fff4df!important;color:#80520c!important;border-color:#ead2a6!important}
+
+/* v14 — cobranças extras e ações financeiras */
+.btn-extra{background:#7c3aed}
+.extra-item,.pagamento-com-acao{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.extra-item>div,.pagamento-com-acao>div{min-width:0;flex:1}
+.btn-item-pequeno{padding:7px 10px!important;font-size:12px!important;min-height:auto!important}
+.destaque-total{background:#eef8ee!important;border-color:#b7d9b8!important}
+.destaque-total strong{color:var(--green-dark);font-size:19px}
+@media(max-width:640px){
+  .extra-item,.pagamento-com-acao{align-items:flex-start}
+  .acoes-extrato .btn-mini{white-space:nowrap}
+}

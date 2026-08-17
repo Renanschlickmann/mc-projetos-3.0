@@ -1,0 +1,19 @@
+MC PROJETOS v14 — ATUALIZAÇÃO
+
+NOVO NESTA VERSÃO:
+- Botão Excluir também no Extrato.
+- Exclusão de projeto apaga pagamentos e extras vinculados.
+- Pagamentos podem ser excluídos pelos Detalhes.
+- Cobrança extra: valor + descrição + data automática.
+- Extras entram no total, saldo pendente, Dashboard, clientes, extratos, CSV e PDF.
+- Extras podem ser excluídos.
+- PDF/relatório agora tem botão “← Voltar ao sistema”.
+- Supabase sincroniza também as cobranças extras.
+
+IMPORTANTE PARA QUEM JÁ TEM O SUPABASE FUNCIONANDO:
+1) NÃO perca o seu arquivo supabase-config.js atual, pois ele contém sua URL e sua chave pública.
+2) No Supabase > SQL Editor, rode TODO o arquivo ATUALIZAR-SUPABASE-v14.sql uma única vez.
+3) Depois substitua os arquivos do site pelos arquivos desta versão.
+4) Se o celular carregar a versão antiga, feche/reabra o app ou atualize a página para renovar o cache.
+
+O arquivo database.sql também já está atualizado para instalações novas.
