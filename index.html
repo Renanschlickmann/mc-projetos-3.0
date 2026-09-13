@@ -181,6 +181,7 @@
           <option value="investimento">Projeto de Investimento</option>
           <option value="custeio">Projeto de Custeio</option>
           <option value="ap">Agricultura de Precisão (AP)</option>
+          <option value="calcario">Aplicação de Calcário</option>
         </select>
         <input type="text" id="projetoNome" placeholder="Nome ou identificação do projeto" required>
         <input type="date" id="projetoData" required>
@@ -194,6 +195,7 @@
         <div id="camposAp" class="grupo-condicional full form-grid interno oculto">
           <input type="number" id="projetoArea" step="0.01" min="0" placeholder="Área (hectares)">
           <input type="text" id="projetoValorHa" placeholder="Valor por hectare (R$)">
+          <small id="ajudaAreaProjeto" class="ajuda-campo">Hectares × valor por hectare.</small>
         </div>
 
         <div class="resultado-calculo full">
@@ -330,6 +332,7 @@
           <option value="investimento">Investimento</option>
           <option value="custeio">Custeio</option>
           <option value="ap">Agricultura de Precisão</option>
+          <option value="calcario">Aplicação de Calcário</option>
         </select>
         <select id="filtroPagamento">
           <option value="todos">Todos os pagamentos</option>
@@ -427,6 +430,7 @@
           <option value="investimento">Projeto de Investimento</option>
           <option value="custeio">Projeto de Custeio</option>
           <option value="ap">Agricultura de Precisão (AP)</option>
+          <option value="calcario">Aplicação de Calcário</option>
         </select>
         <input type="text" id="editProjetoNome" placeholder="Nome ou identificação do projeto" required>
         <input type="date" id="editProjetoData" required>
@@ -440,6 +444,7 @@
         <div id="editCamposAp" class="grupo-condicional full form-grid interno oculto">
           <input type="number" id="editProjetoArea" step="0.01" min="0" placeholder="Área (hectares)">
           <input type="text" id="editProjetoValorHa" placeholder="Valor por hectare (R$)">
+          <small id="editAjudaAreaProjeto" class="ajuda-campo">Hectares × valor por hectare.</small>
         </div>
 
         <div class="resultado-calculo full">

@@ -35,14 +35,14 @@ function totalProjeto(p){return Number(p.valor||0)+totalExtras(p)}
 function saldo(p){return Math.max(0,totalProjeto(p)-recebido(p))}
 function statusPg(p){const r=recebido(p),t=totalProjeto(p);return r<=0?'pendente':r+0.005>=t?'pago':'parcial'}
 function statusTexto(s){return s==='pago'?'Pago':s==='parcial'?'Parcial':'Pendente'}
-function tipoTexto(t){return t==='investimento'?'Projeto de Investimento':t==='custeio'?'Projeto de Custeio':'Agricultura de Precisão'}
+function tipoTexto(t){return t==='investimento'?'Projeto de Investimento':t==='custeio'?'Projeto de Custeio':t==='calcario'?'Aplicação de Calcário':'Agricultura de Precisão'}
 function formatarEntrada(el){el.addEventListener('input',()=>{let d=el.value.replace(/\D/g,'');el.value=d?(Number(d)/100).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):'';calcularProjeto()})}
 ['projetoValorFinanciado','projetoValorHa','projetoRecebidoInicial','pagamentoValor','extraValor'].forEach(id=>{const el=$(id);if(el)formatarEntrada(el)});
 ['editProjetoValorFinanciado','editProjetoValorHa'].forEach(id=>{const el=$(id);if(el)formatarEntrada(el)});
-function calcularProjeto(){let v=0;if($('projetoTipo').value==='ap')v=decimal($('projetoArea').value)*num($('projetoValorHa').value);else v=num($('projetoValorFinanciado').value)*(decimal($('projetoPercentual').value)/100);$('valorCalculado').textContent=moeda(v);return v}
-function alternarCampos(){const ap=$('projetoTipo').value==='ap';$('camposAp').classList.toggle('oculto',!ap);$('camposPercentual').classList.toggle('oculto',ap);calcularProjeto()}
-function calcularProjetoEdit(){let v=0;if(!$('editProjetoTipo'))return 0;if($('editProjetoTipo').value==='ap')v=decimal($('editProjetoArea').value)*num($('editProjetoValorHa').value);else v=num($('editProjetoValorFinanciado').value)*(decimal($('editProjetoPercentual').value)/100);$('editValorCalculado').textContent=moeda(v);return v}
-function alternarCamposEdit(){if(!$('editProjetoTipo'))return;const ap=$('editProjetoTipo').value==='ap';$('editCamposAp').classList.toggle('oculto',!ap);$('editCamposPercentual').classList.toggle('oculto',ap);calcularProjetoEdit()}
+function calcularProjeto(){let v=0;if(['ap','calcario'].includes($('projetoTipo').value))v=decimal($('projetoArea').value)*num($('projetoValorHa').value);else v=num($('projetoValorFinanciado').value)*(decimal($('projetoPercentual').value)/100);$('valorCalculado').textContent=moeda(v);return v}
+function alternarCampos(){const tipo=$('projetoTipo').value,porArea=['ap','calcario'].includes(tipo);$('camposAp').classList.toggle('oculto',!porArea);$('camposPercentual').classList.toggle('oculto',porArea);if(porArea){$('projetoArea').placeholder=tipo==='calcario'?'Alqueires / toneladas':'Área (hectares)';$('projetoValorHa').placeholder=tipo==='calcario'?'Valor por alqueire / tonelada (R$)':'Valor por hectare (R$)';if($('ajudaAreaProjeto'))$('ajudaAreaProjeto').textContent=tipo==='calcario'?'Alqueires/toneladas × valor por alqueire/tonelada.':'Hectares × valor por hectare.';}calcularProjeto()}
+function calcularProjetoEdit(){let v=0;if(!$('editProjetoTipo'))return 0;if(['ap','calcario'].includes($('editProjetoTipo').value))v=decimal($('editProjetoArea').value)*num($('editProjetoValorHa').value);else v=num($('editProjetoValorFinanciado').value)*(decimal($('editProjetoPercentual').value)/100);$('editValorCalculado').textContent=moeda(v);return v}
+function alternarCamposEdit(){if(!$('editProjetoTipo'))return;const tipo=$('editProjetoTipo').value,porArea=['ap','calcario'].includes(tipo);$('editCamposAp').classList.toggle('oculto',!porArea);$('editCamposPercentual').classList.toggle('oculto',porArea);if(porArea){$('editProjetoArea').placeholder=tipo==='calcario'?'Alqueires / toneladas':'Área (hectares)';$('editProjetoValorHa').placeholder=tipo==='calcario'?'Valor por alqueire / tonelada (R$)':'Valor por hectare (R$)';if($('editAjudaAreaProjeto'))$('editAjudaAreaProjeto').textContent=tipo==='calcario'?'Alqueires/toneladas × valor por alqueire/tonelada.':'Hectares × valor por hectare.';}calcularProjetoEdit()}
 function renderSelectClientes(){
   const clientesOrdenados=db.clientes.slice().sort((a,b)=>a.nome.localeCompare(b.nome));
   const atualProjeto=$('projetoCliente').value;
@@ -57,7 +57,7 @@ function renderSelectClientes(){
 }
 function renderDashboard(){const total=db.projetos.reduce((s,p)=>s+totalProjeto(p),0),rec=db.projetos.reduce((s,p)=>s+recebido(p),0);$('kpiClientes').textContent=db.clientes.length;$('kpiProjetos').textContent=db.projetos.length;$('kpiRecebido').textContent=moeda(rec);$('kpiReceber').textContent=moeda(Math.max(0,total-rec));$('kpiPagos').textContent=db.projetos.filter(p=>statusPg(p)==='pago').length;$('kpiPendentes').textContent=db.projetos.filter(p=>statusPg(p)!=='pago').length;
 const ult=db.projetos.slice().sort((a,b)=>b.id-a.id).slice(0,5);$('ultimosProjetos').innerHTML=ult.length?ult.map(p=>`<div class="resumo-item"><span><strong>${p.nome}</strong><br><small>${clienteNome(p.clienteId)}</small></span><strong>${moeda(totalProjeto(p))}</strong></div>`).join(''):'Nenhum projeto cadastrado.';
-const cats=['investimento','custeio','ap'].map(t=>[tipoTexto(t),db.projetos.filter(p=>p.tipo===t).reduce((s,p)=>s+totalProjeto(p),0)]).filter(x=>x[1]>0);$('resumoCategorias').innerHTML=cats.length?cats.map(x=>`<div class="resumo-item"><span>${x[0]}</span><strong>${moeda(x[1])}</strong></div>`).join(''):'Nenhum valor cadastrado.'}
+const cats=['investimento','custeio','ap','calcario'].map(t=>[tipoTexto(t),db.projetos.filter(p=>p.tipo===t).reduce((s,p)=>s+totalProjeto(p),0)]).filter(x=>x[1]>0);$('resumoCategorias').innerHTML=cats.length?cats.map(x=>`<div class="resumo-item"><span>${x[0]}</span><strong>${moeda(x[1])}</strong></div>`).join(''):'Nenhum valor cadastrado.'}
 function filtrosProjeto(p){const q=$('pesquisaGeral').value.toLowerCase().trim(),ft=$('filtroTipo').value,fp=$('filtroPagamento').value;return(!q||`${p.nome} ${clienteNome(p.clienteId)} ${tipoTexto(p.tipo)}`.toLowerCase().includes(q))&&(ft==='todos'||p.tipo===ft)&&(fp==='todos'||statusPg(p)===fp)}
 function renderProjetos(){
   const arr=db.projetos.filter(filtrosProjeto).sort((a,b)=>b.id-a.id);
@@ -183,6 +183,7 @@ window.detalhesProjeto=id=>{
     <div class="detalhe-grid">
       <div class="detalhe-box"><span>Cliente</span><strong>${clienteNome(p.clienteId)}</strong></div>
       <div class="detalhe-box"><span>Tipo</span><strong>${tipoTexto(p.tipo)}</strong></div>
+      ${['ap','calcario'].includes(p.tipo)?`<div class="detalhe-box"><span>${p.tipo==='calcario'?'Alqueires / toneladas':'Hectares'}</span><strong>${Number(p.area||0).toLocaleString('pt-BR',{maximumFractionDigits:2})}</strong></div><div class="detalhe-box"><span>${p.tipo==='calcario'?'Valor por alqueire / tonelada':'Valor por hectare'}</span><strong>${moeda(p.valorHa||0)}</strong></div>`:''}
       <div class="detalhe-box"><span>Data</span><strong>${dataBr(p.data)}</strong></div>
       <div class="detalhe-box"><span>Status financeiro</span><strong>${statusTexto(st)}</strong></div>
       <div class="detalhe-box"><span>Valor do projeto</span><strong>${moeda(p.valor)}</strong></div>

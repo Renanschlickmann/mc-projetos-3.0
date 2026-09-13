@@ -1,0 +1,18 @@
+MC PROJETOS v15 — Aplicação de Calcário
+
+NOVIDADE:
+- Novo serviço: Aplicação de Calcário.
+- Cálculo igual à Agricultura de Precisão.
+- Campo: Alqueires / toneladas.
+- Campo: Valor por alqueire / tonelada.
+- Cálculo automático: quantidade x valor.
+- Mantém pagamentos, extras, extrato, PDF, login, Supabase e offline.
+
+SUPABASE:
+NÃO precisa rodar SQL novo nesta atualização.
+A tabela mc_projetos já possui os campos usados pelo novo serviço.
+
+GITHUB:
+Substitua index.html, script.js e sw.js pelos arquivos da v15.
+Pode substituir também style.css/manifest/ícones se quiser manter a pasta completa igual.
+NÃO substitua seu supabase-config.js configurado.
