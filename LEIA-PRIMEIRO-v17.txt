@@ -1,0 +1,14 @@
+MC PROJETOS v17 — CALCÁRIO + APLICAÇÃO DE CALCÁRIO
+
+Agora existem DUAS opções separadas:
+1. Aplicação de Calcário
+   - Alqueires / toneladas
+   - Valor por alqueire / tonelada
+2. Calcário
+   - Toneladas
+   - Valor por tonelada
+
+IMPORTANTE:
+- Antes de usar/sincronizar a nova opção Calcário, rode ATUALIZAR-SUPABASE-v17.sql no Supabase > SQL Editor.
+- O ZIP não inclui supabase-config.js, então sua configuração atual não será apagada.
+- Depois, envie os arquivos ao mesmo repositório do GitHub e faça Commit.
