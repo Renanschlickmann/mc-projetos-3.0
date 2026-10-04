@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#1e3b20">
   <title>MC Projetos</title>
   <link rel="stylesheet" href="style.css?v=13">
-  <link rel="manifest" href="manifest.json?v=18">
+  <link rel="manifest" href="manifest.json?v=19">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
@@ -483,11 +483,34 @@
   <footer><p>© 2026 - MC Projetos</p></footer>
   </div>
 
-  <script src="supabase-config.js?v=18"></script>
+  <script src="supabase-config.js?v=19"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js?v=18"></script>
+  <script src="script.js?v=19"></script>
   <script>
-    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js?v=18', { updateViaCache: 'none' }).then(r=>r.update());
+    // Atualização automática do PWA: o cliente só precisa abrir o app normalmente.
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      let recarregandoPorAtualizacao = false;
+
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (recarregandoPorAtualizacao) return;
+        recarregandoPorAtualizacao = true;
+        window.location.reload();
+      });
+
+      navigator.serviceWorker.register('./sw.js?v=19', { updateViaCache: 'none' }).then(reg => {
+        const verificarAtualizacao = () => reg.update().catch(() => {});
+        verificarAtualizacao();
+
+        // Se o PWA ficou aberto/suspenso no celular, verifica ao voltar para ele.
+        window.addEventListener('focus', verificarAtualizacao);
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') verificarAtualizacao();
+        });
+
+        // Mantém uma checagem leve enquanto o app estiver aberto.
+        setInterval(verificarAtualizacao, 5 * 60 * 1000);
+      }).catch(() => {});
+    }
   </script>
 </body>
 </html>
