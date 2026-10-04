@@ -1,0 +1,18 @@
+MC PROJETOS v16 — Calcário por tonelada
+
+ALTERAÇÃO PEDIDA:
+- A opção agora aparece como: Calcário.
+- Mantém o campo: Nome ou identificação do projeto.
+- Para Calcário, os campos agora são:
+  • Toneladas
+  • Valor por tonelada (R$)
+- Cálculo: toneladas × valor por tonelada.
+- Pagamentos, extrato, PDF, backup e sincronização continuam iguais.
+- O valor interno do tipo continua sendo "calcario", então NÃO precisa alterar o banco novamente.
+
+ATUALIZAÇÃO NO GITHUB:
+1. Extraia este ZIP.
+2. No repositório atual, use Add file > Upload files.
+3. Envie os arquivos desta pasta e confirme a substituição dos arquivos com o mesmo nome.
+4. NÃO mexa no seu supabase-config.js atual. Este ZIP não contém esse arquivo.
+5. Aguarde o GitHub Pages atualizar e feche/abra o PWA se necessário.
