@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#1e3b20">
   <title>MC Projetos</title>
   <link rel="stylesheet" href="style.css?v=13">
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json?v=18">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
@@ -483,11 +483,11 @@
   <footer><p>© 2026 - MC Projetos</p></footer>
   </div>
 
-  <script src="supabase-config.js?v=14"></script>
+  <script src="supabase-config.js?v=18"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js?v=14"></script>
+  <script src="script.js?v=18"></script>
   <script>
-    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js');
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js?v=18', { updateViaCache: 'none' }).then(r=>r.update());
   </script>
 </body>
 </html>
