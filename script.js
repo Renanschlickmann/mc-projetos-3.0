@@ -479,4 +479,4 @@ window.addEventListener('online',async()=>{
 });
 
 alternarCampos();renderTudo();initSupabase();
-if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js');
+// Service Worker é registrado somente pelo index.html para evitar registros duplicados.

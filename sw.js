@@ -1,11 +1,9 @@
-const VERSION = '19';
-const CACHE = 'mc-projetos-v19-auto-update';
-const FILES = [
-  './index.html?v=19',
-  './style.css?v=19',
-  './script.js?v=19',
-  './supabase-config.js?v=19',
-  './manifest.json?v=19',
+const CACHE = 'mc-projetos-v20-estavel';
+const APP_SHELL = [
+  './index.html',
+  './style.css?v=20',
+  './script.js?v=20',
+  './manifest.json?v=20',
   './logo.png',
   './icon-192.png',
   './icon-512.png',
@@ -14,49 +12,59 @@ const FILES = [
 
 self.addEventListener('install', event => {
   self.skipWaiting();
-  event.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(FILES)).catch(() => undefined)
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+    await Promise.allSettled(APP_SHELL.map(async url => {
+      try {
+        const response = await fetch(url, { cache: 'reload' });
+        if (response.ok) await cache.put(url, response.clone());
+      } catch (_) {}
+    }));
+  })());
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)));
+    await Promise.all(keys
+      .filter(key => key.startsWith('mc-projetos-') && key !== CACHE)
+      .map(key => caches.delete(key)));
     await self.clients.claim();
-
-    // Força a página já aberta a entrar na versão nova sem pedir F12, reinstalação ou limpeza de cache.
-    const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-    await Promise.all(windows.map(client => {
-      try {
-        return client.navigate(client.url);
-      } catch (_) {
-        return Promise.resolve();
-      }
-    }));
   })());
 });
 
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
-  const req = event.request;
-  const isNavigation = req.mode === 'navigate';
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) return;
 
-  // Com internet: sempre prioriza a versão mais nova. Sem internet: usa o cache do PWA.
+  if (event.request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        const response = await fetch(event.request, { cache: 'no-store' });
+        if (response.ok) {
+          const cache = await caches.open(CACHE);
+          await cache.put('./index.html', response.clone());
+        }
+        return response;
+      } catch (_) {
+        return (await caches.match('./index.html')) || Response.error();
+      }
+    })());
+    return;
+  }
+
   event.respondWith((async () => {
     try {
-      const response = await fetch(req, { cache: 'no-store' });
-      if (response && response.ok) {
-        const copy = response.clone();
-        caches.open(CACHE).then(cache => cache.put(req, copy)).catch(() => {});
+      const response = await fetch(event.request, { cache: 'no-store' });
+      if (response.ok) {
+        const cache = await caches.open(CACHE);
+        await cache.put(event.request, response.clone());
       }
       return response;
     } catch (_) {
-      const cached = await caches.match(req);
-      if (cached) return cached;
-      if (isNavigation) return caches.match('./index.html?v=19');
-      throw _;
+      return (await caches.match(event.request)) || Response.error();
     }
   })());
 });
